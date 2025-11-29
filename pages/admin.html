@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <!---------------------nav----------------------->
     <nav>
         <samp>Filters:</samp>
         <select id ="catFilter">
@@ -22,5 +23,60 @@
         </select>
         <button onclick="clearFilters()">Clear Filters</button>
     </nav>
+<!-----------------------bar----------------------->
+    <div class="sidebar">
+        <h3>Add Fleet</h3>
+        <input id="reg" placeholder="Reg No. of veh...">
+        <select id="cat">
+            <option >Select Category</option>
+            <option >Auto</option>
+            <option >car</option>
+            <option>Truck</option>
+            <option>Bus</option>
+        </select>
+      <input id="driver" placeholder="Driver Name...">
+      <select  id="avail">
+            <option >Available</option>
+            <option >Unavailable</option>
+      </select>
+        <button onclick="addFleet()">Add Fleet</button>
+    </div>
+<!-----------------------main----------------------->
+<main id = "cards"></main>
+
+
+<script>
+    let data=[];
+    const img = "https://coding-platform.s3.amazonaws.com/dev/lms/tickets/5e80fcb6-3f8e-480c-945b-30a5359eb40e/JNmYjkVr3WOjsrbu.png";
+    function addFleet(){
+        let r= reg.value.trim(),c=cat.value,d=driver.value.trim(),a=avail.value;
+        if(!r||!c||!d){
+            alert("All fields required");
+            return;
+        }
+        data.push({reg:r,cat:c,driver:d,avail:a});
+        reg.value="";
+        cat.value="";
+        driver.value="";
+        avail.value="Available";
+        render();
+    }
+    function render(){
+        let catF=catFilter.value,avF=availFilter.value;
+        cards.innerHTML="";
+        data.filter(v=>(!catF || v.cat===catF) && (!avF || v.avail===avF))
+        .forEach((v,i)=>{
+            cards.innerHTML+=`<div class="card">
+            <img src="${img}">
+            <p><b>${v.reg}</b> </p>
+            <p>Category: ${v.cat}</p>
+            <p>Driver: ${v.driver}</p>
+            <p>Availability: ${v.avail}</p>
+            <button class="btn" onclick="updateAvail(${i})">Update </button>
+            </div>`;
+        })
+    }
+</script>
+    
 </body>
 </html>

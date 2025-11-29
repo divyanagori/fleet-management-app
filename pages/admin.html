@@ -72,10 +72,39 @@
             <p>Category: ${v.cat}</p>
             <p>Driver: ${v.driver}</p>
             <p>Availability: ${v.avail}</p>
-            <button class="btn" onclick="updateAvail(${i})">Update </button>
+            <button class="btn" onclick="updateAvail(${i})">Update Driver</button>
+            <button class="btn" onclick="changeAvail(${i})">Change Availability</button>
+            <button class="btn" onclick="delFleet(${i})">Delete Vehicle</button>
             </div>`;
         })
     }
+    function updateDriver(i){
+        let n=prompt("Enter new driver name:");
+       if(!n || !n.trim()){
+        alert("Driver name cannot be empty");
+        return;
+       }
+         data[i].driver=n.trim();
+         render();
+    }
+    function changeAvail(i){
+        data[i].avail = data[i].avail==="Available" ? "Unavailable" : "Available";
+        render();
+    }
+    function delFleet(i){
+      if(confirm("Delete this vehicle?")){
+        data.splice(i,1);
+        render();
+      }
+    }
+    function clearFilters(){
+        catFilter.value="";
+        availFilter.value="";
+        render();
+    }
+
+    catFilter.onchange=render;
+    availFilter.onchange=render;
 </script>
     
 </body>
